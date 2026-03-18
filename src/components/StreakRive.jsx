@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useRive } from '@rive-app/react-canvas'
 
-export default function StreakRive({ className, replayKey }) {
+export default function StreakRive({ className, replayKey, src = '/images/streak.riv' }) {
   const { RiveComponent, rive } = useRive({
-    src: '/images/streak.riv',
+    src,
     stateMachines: 'State Machine 1',
     autoplay: true,
   })

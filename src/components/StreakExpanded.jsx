@@ -2,14 +2,19 @@ import RollingDigit from './RollingDigit'
 import StreakRive from './StreakRive'
 import { ITEM_STRIDE, WINDOW_SIZE, TRACKER_W } from './useStreakDays'
 
-export default function StreakExpanded({ count, dir, days, riveKey }) {
+export default function StreakExpanded({ count, dir, days, riveKey, colorMode }) {
   const padded = String(count).padStart(2, '0')
   const nonExiting = days.filter(d => d.status !== 'exiting' && d.status !== 'exiting-right')
 
   return (
     <div className="flex flex-row items-center justify-between w-full h-full px-[22px] box-border di-expanded-enter">
       <div className="flex items-center gap-3">
-        <StreakRive className="w-[72px] h-[72px] shrink-0" replayKey={riveKey} />
+        <StreakRive
+          key={colorMode}
+          className="w-[72px] h-[72px] shrink-0"
+          replayKey={riveKey}
+          src={colorMode === 'gradient' ? '/images/violet-streak.riv' : '/images/streak.riv'}
+        />
         <div className="flex flex-col gap-1">
           <div className="flex gap-[0.1px] text-[22px] font-bold text-white tabular-nums leading-none">
             <RollingDigit key={`t-${padded[0]}-${dir}`} value={padded[0]} dir={dir} />
