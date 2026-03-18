@@ -105,11 +105,11 @@
 
 @keyframes di-day-in-right {
   from { transform: translateX(10px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(0); }
 }
 @keyframes di-day-in-left {
   from { transform: translateX(-10px); opacity: 0; }
-  to   { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(0); }
 }
 @keyframes di-day-out-left {
   from { transform: translateX(0);     opacity: 1; }
@@ -142,6 +142,17 @@
   60%  { transform: scale(1.3); opacity: 1; }
   80%  { transform: scale(0.9); }
   100% { transform: scale(1); }
+}
+
+/* ── First-expand backdrop blur overlay ──────────────────── */
+.di-blur-overlay {
+  animation: blur-overlay 1s ease-out forwards;
+}
+
+@keyframes blur-overlay {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* ── Call dot pulse ───────────────────────────────────────── */

@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 
 const DAY_NAMES = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-export const ITEM_STRIDE = 25   // circle width (14px) + gap (11px)
-export const WINDOW_SIZE = 5
+export const ITEM_STRIDE = 26   // circle width (14px) + gap (12px)
+export const WINDOW_SIZE = 4
 export const ANIM_MS = 380
-export const FUTURE_DAYS = 3
-export const TRACKER_W = (WINDOW_SIZE - 1) * ITEM_STRIDE + 14  // 106px
+export const FUTURE_DAYS = 2
+export const TRACKER_W = (WINDOW_SIZE - 1) * ITEM_STRIDE + 14  // 92px
 
 function makeDay(offset, done, status = 'normal') {
   const d = new Date()

@@ -8,6 +8,79 @@ import StreakRive from './StreakRive'
 import StreakExpanded from './StreakExpanded'
 import useStreakDays from './useStreakDays'
 
+const SECTIONS = [
+  {
+    title: 'Trade-offs',
+    items: [
+      { text: 'Streak flame only plays when expanded: Collapsed state is too small.' },
+      { text: 'Honestly, expanded view is best, and allows users to fully appreciate the riv animation.' },
+      { text: 'The pop up demanding more screen real estate might be annoying, but my assumption is that it\'s alright because streaks are a once a day occurence. Might even make them feel more special.', warn: true },
+    ],
+  },
+  {
+    title: 'Color',
+    items: [
+      { text: 'Wanted the streak to feel premium / prestigious' },
+      { text: 'Orange felt flat, and unexciting, esp with such a cinematically driven art direction.' },
+      { text: 'You guys predominately used black and white: thought the logo could be a cool flagship color' },
+    ],
+  },
+  {
+    title: 'Animation',
+    items: [
+      { text: 'Designed to feel Apple-native: number flip, micro-animations on the date tracker' },
+      { text: '2.5 second intro felt right for median attention spans.' },
+      { text: 'Tried to mash Duolingo playful with Apple class.' },
+      { text: 'I realize there is alot of tidbits of motion going on', warn: true },
+    ],
+  },
+  {
+    title: 'Next Steps',
+    items: [
+      { text: 'Oh god, wanted to do a lot more with this one haha' },
+      { text: 'Milestone animations for sure' },
+      { text: <>Would love to give Josh Puckett's <a href="https://www.interfacecraft.dev/" target="_blank" rel="noreferrer" className="text-black">interface craft</a>, Rauno's <a href="https://devouringdetails.com" target="_blank" rel="noreferrer" className="text-black">devouring details</a>, or even <a href="https://animations.dev" target="_blank" rel="noreferrer" className="text-black">animations.dev</a> a good read to apply more mindful motion principles</> },
+    ],
+  },
+]
+
+const COMPACT_NOTE = "I don't think streaks should appear in the collapsed view — but including it here to show how one might adapt streaks to a smaller medium, or transition if another Dynamic Island app was already open."
+
+function SidePanel({ islandState }) {
+  const [active, setActive] = useState('Trade-offs')
+  const section = SECTIONS.find(s => s.title === active)
+  const showCompactNote = active === 'Trade-offs' && islandState === 'compact'
+
+  return (
+    <div className="absolute top-8 left-8 flex flex-col gap-5 max-w-[20vw] z-10">
+        <span className="text-[13px] text-black/40">Caleb x WIP Takehome</span>
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
+          {SECTIONS.map(s => (
+            <button
+              key={s.title}
+              onClick={() => setActive(s.title)}
+              className={`text-[13px] font-normal bg-transparent border-none p-0 cursor-pointer transition-colors duration-150 ${active === s.title ? 'text-black/70' : 'text-black/40 hover:text-black/60'}`}
+            >
+              {s.title}
+            </button>
+          ))}
+        </div>
+        {showCompactNote ? (
+          <p className="text-[13px] font-normal leading-[1.5] text-black/40 m-0">{COMPACT_NOTE}</p>
+        ) : section && (
+          <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
+            {section.items.map((item, i) => (
+              <li key={i} className="flex gap-2">
+                <span className={`shrink-0 ${item.warn ? 'text-red-400/80' : ''}`}>—</span>
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+  )
+}
+
 const ACTIVITIES = {
   idle: null,
   listening: {
@@ -48,6 +121,21 @@ export default function DynamicIsland() {
   const { streakCount, streakDir, streakDays, changeStreak, resetStreak } = useStreakDays(2)
   const [riveKey, setRiveKey] = useState(0)
   const [riveColorMode, setRiveColorMode] = useState('orange')
+  const [showBlurOverlay, setShowBlurOverlay] = useState(false)
+  const prevStateRef = useRef(state)
+  const blurTimer = useRef(null)
+
+  useEffect(() => {
+    const prev = prevStateRef.current
+    prevStateRef.current = state
+    const isExpanding = state === 'expanded'
+    const isCollapsing = prev === 'expanded' && state === 'compact'
+    if (isExpanding || isCollapsing) {
+      if (blurTimer.current) clearTimeout(blurTimer.current)
+      setShowBlurOverlay(true)
+      blurTimer.current = setTimeout(() => setShowBlurOverlay(false), 1200)
+    }
+  }, [state])
 
   useEffect(() => {
     const prev = prevActivityRef.current
@@ -110,44 +198,10 @@ export default function DynamicIsland() {
   return (
     <div className="min-h-svh bg-white flex flex-col items-center px-5 box-border font-sans relative">
 
-      <div className="absolute top-8 left-8 bottom-8 flex flex-col gap-5 max-w-[24vw] overflow-y-auto">
-        <span className="text-[13px] text-black/40">Caleb x WIP Takehome</span>
-        <div className="flex flex-col gap-5 mt-[3rem]">
-          <div className="flex flex-col gap-1.5">
-            <div className="text-[13px] font-normal text-black/70">Design Trade-offs: Pill Sizes</div>
-            <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Streak flame only plays when expanded: Collapsed state is too small.</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Honestly, expanded view is best, and allows users to fully appreciate the riv animation.</span></li>
-              <li className="flex gap-2"><span className="shrink-0 text-red-400/80">—</span><span>The pop up demanding more screen real estate might be annoying, but my assumption is that it's alright because streaks are a once a day occurence. Might even make them feel more special.</span></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <div className="text-[13px] font-normal text-black/70">Color</div>
-            <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Wanted the streak to feel premium / prestigious</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Orange felt flat, and unexciting, esp with such a cinematically driven art direction.</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>You guys predominately used black and white: thought the logo could be a cool flagship color</span></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <div className="text-[13px] font-normal text-black/70">Animation</div>
-            <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Designed to feel Apple-native: number flip, micro-animations on the date tracker</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>2.5 second intro felt right for median attention spans.</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Tried to mash Duolingo playful with Apple class.</span></li>
-              <li className="flex gap-2"><span className="shrink-0 text-red-400/80">—</span><span>I realize there is alot of tidbits of motion going on</span></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <div className="text-[13px] font-normal text-black/70">Next Steps</div>
-            <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Oh god, wanted to do a lot more with this one haha</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Milestone animations for sure</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Would love to give Josh Puckett's <a href="https://www.interfacecraft.dev/" target="_blank" rel="noreferrer" className="text-black">interface craft</a>, Rauno's <a href="https://devouringdetails.com" target="_blank" rel="noreferrer" className="text-black">devouring details</a>, or even <a href="https://animations.dev" target="_blank" rel="noreferrer" className="text-black">animations.dev</a> a good read to apply more mindful motion principles</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <SidePanel islandState={state} />
+      {showBlurOverlay && (
+        <div className="fixed inset-0 backdrop-blur-sm pointer-events-none di-blur-overlay" />
+      )}
 
       {/* Card */}
       <div className="flex-1 w-full flex items-center justify-center">
@@ -158,11 +212,7 @@ export default function DynamicIsland() {
           className={`absolute top-[56px] left-0 right-0 text-center text-[11px] font-normal text-black/60 whitespace-nowrap m-0 di-hint ${state === 'idle' ? 'opacity-100' : 'opacity-0 translate-y-[10px] scale-[0.94]'}`}
         >(click on bar to start)</h6>
 
-        <p
-          className={`absolute top-[72px] left-1/2 -translate-x-1/2 w-[15rem] text-[11px] font-normal leading-[1.5] text-black/40 m-0 di-hint text-center ${state === 'compact' ? 'opacity-100' : 'opacity-0 translate-y-[10px] scale-[0.94]'}`}
-        >I don't think streaks should appear in the collapsed view — but including it here to show how one might adapt streaks to a smaller medium, or transition if another Dynamic Island app was already open.</p>
-
-        {/* Dynamic Island */}
+{/* Dynamic Island */}
         <div
           className="di-island absolute top-4 left-1/2 -translate-x-1/2 bg-black cursor-pointer z-10 overflow-hidden"
           style={ISLAND_DIMS[state]}
