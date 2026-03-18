@@ -109,7 +109,7 @@ export default function DynamicIsland() {
   return (
     <div className="min-h-svh bg-white flex flex-col items-center px-5 box-border font-sans relative">
 
-      <div className="absolute top-8 left-8 flex flex-col gap-5 max-w-[24vw]">
+      <div className="absolute top-8 left-8 bottom-8 flex flex-col gap-5 max-w-[24vw] overflow-y-auto">
         <span className="text-[13px] text-black/40">Caleb x WIP Takehome</span>
         <div className="flex flex-col gap-5 mt-[3rem]">
           <div className="flex flex-col gap-1.5">
