@@ -115,8 +115,8 @@ export default function DynamicIsland() {
           <div className="flex flex-col gap-1.5">
             <div className="text-[13px] font-normal text-black/70">Design Trade-offs: Pill Sizes</div>
             <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Steak Flame only plays when expanded: Collapsed state is too small.</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Honestly, jumping straight to expanded view is best.</span></li>
+              <li className="flex gap-2"><span className="shrink-0">—</span><span>Streak flame only plays when expanded: Collapsed state is too small.</span></li>
+              <li className="flex gap-2"><span className="shrink-0">—</span><span>Honestly, expanded view is best, and allows users to fully appreciate the riv animation.</span></li>
               <li className="flex gap-2"><span className="shrink-0 text-red-400/80">—</span><span>The pop up demanding more screen real estate might be annoying, but my assumption is that it's alright because streaks are a once a day occurence. Might even make them feel more special.</span></li>
             </ul>
           </div>
