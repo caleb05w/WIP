@@ -132,8 +132,8 @@ export default function DynamicIsland() {
             <div className="text-[13px] font-normal text-black/70">Animation</div>
             <ul className="text-[13px] font-normal leading-[1.5] text-black/40 m-0 p-0 list-none flex flex-col gap-1">
               <li className="flex gap-2"><span className="shrink-0">—</span><span>Designed to feel Apple-native: number flip, micro-animations on the date tracker</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>2.5 seconds for the intro felt right for median attention spans.</span></li>
-              <li className="flex gap-2"><span className="shrink-0">—</span><span>Tried to mash playfulness of Duolingo with Apple class.</span></li>
+              <li className="flex gap-2"><span className="shrink-0">—</span><span>2.5 second intro felt right for median attention spans.</span></li>
+              <li className="flex gap-2"><span className="shrink-0">—</span><span>Tried to mash Duolingo playful with Apple class.</span></li>
               <li className="flex gap-2"><span className="shrink-0 text-red-400/80">—</span><span>I realize there is alot of tidbits of motion going on</span></li>
             </ul>
           </div>
