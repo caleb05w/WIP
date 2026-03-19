@@ -27,7 +27,7 @@ function DayCircle({ done, today, status }) {
   )
 }
 
-export default function StreakExpanded({ count, dir, days, riveKey, colorMode }) {
+export default function StreakExpanded({ count, dir, days, riveKey, colorMode, stateMachine }) {
   const padded = String(count).padStart(2, '0')
   const nonExiting = days.filter(d => d.status !== 'exiting' && d.status !== 'exiting-right')
 
@@ -40,6 +40,7 @@ export default function StreakExpanded({ count, dir, days, riveKey, colorMode })
           className="w-[64px] h-[64px] shrink-0"
           replayKey={riveKey}
           src={colorMode === 'gradient' ? '/images/violet-streak.riv' : '/images/streak.riv'}
+          stateMachine={stateMachine}
         />
         <div className="flex flex-col gap-0">
           <div className="flex gap-0 text-[24px] font-semibold text-white tabular-nums leading-none">

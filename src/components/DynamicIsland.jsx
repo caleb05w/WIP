@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { SFPlus } from 'sf-symbols-lib/dualtone/SFPlus'
 import { SFArrowCounterclockwise } from 'sf-symbols-lib/dualtone/SFArrowCounterclockwise'
+import { SFArrowTriangleheadSwap } from 'sf-symbols-lib/dualtone/SFArrowTriangleheadSwap'
 import './DynamicIsland.css'
 import RollingDigit from './RollingDigit'
 import Waveform from './Waveform'
@@ -120,7 +121,8 @@ export default function DynamicIsland() {
 
   const { streakCount, streakDir, streakDays, changeStreak, resetStreak } = useStreakDays(2)
   const [riveKey, setRiveKey] = useState(0)
-  const [riveColorMode, setRiveColorMode] = useState('orange')
+  const [riveColorMode] = useState('orange')
+  const [riveStateMachine, setRiveStateMachine] = useState('State Machine 2')
   const [showBlurOverlay, setShowBlurOverlay] = useState(false)
   const prevStateRef = useRef(state)
   const blurTimer = useRef(null)
@@ -333,6 +335,7 @@ export default function DynamicIsland() {
                 days={streakDays}
                 riveKey={riveKey}
                 colorMode={riveColorMode}
+                stateMachine={riveStateMachine}
               />
             )}
 
@@ -361,14 +364,13 @@ export default function DynamicIsland() {
           </div>
           <div className="relative group">
             <button
-              className="w-10 h-10 rounded-full border border-[#c7c7cc] bg-white cursor-pointer flex items-center justify-center gap-1 hover:bg-[#f5f5f7] active:scale-[0.92] transition-[background,transform] duration-150"
-              onClick={() => setRiveColorMode(m => m === 'gradient' ? 'orange' : 'gradient')}
+              className="w-10 h-10 rounded-full border border-[#c7c7cc] bg-white cursor-pointer flex items-center justify-center hover:bg-[#f5f5f7] active:scale-[0.92] transition-[background,transform] duration-150"
+              onClick={e => { e.stopPropagation(); setRiveStateMachine(m => m === 'State Machine 1' ? 'State Machine 2' : 'State Machine 1') }}
             >
-              <div className="w-3 h-3 rounded-full bg-orange-500" style={{ outline: riveColorMode === 'orange' ? '2px solid #f97316' : 'none', outlineOffset: '1px' }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: '#1C5A8F', outline: riveColorMode === 'gradient' ? '2px solid #1C5A8F' : 'none', outlineOffset: '1px' }} />
+              <SFArrowTriangleheadSwap size="sm" />
             </button>
             <span className="pointer-events-none absolute top-[calc(100%+1rem)] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#1c1c1e] px-2 py-1 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-              {riveColorMode === 'gradient' ? 'Switch to orange' : 'Switch to gradient'}
+              Switch animation
             </span>
           </div>
         </div>
